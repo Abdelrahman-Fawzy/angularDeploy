@@ -1,0 +1,170 @@
+<!-- interpolation -->
+<h1>interpolation binding</h1>
+<h2>Course is : {{course}}</h2>
+<img src="{{imageURL}}" />
+<p>------------------------------------------------------</p>
+<!-- property binding one way -->
+<h1>property binding one way</h1>
+<img [src]="imageURL" />
+<h2 [textContent]="course"></h2>
+<button [style.background] = "isActive ? 'yellow' : 'blue' ">for testing</button>
+<p>------------------------------------------------------</p>
+<!-- event Firing -->
+<h1>event firing</h1>
+<div (click)="divClicked()">
+  <button (click)="buttonClicked($event)" class="btn btn-primary">
+    Primary
+  </button>
+</div>
+<p>------------------------------------------------------</p>
+<!-- two way binding -->
+<h1>two way binding</h1>
+<input #firstName type="text" (keyup)="inputKeyUp(firstName, $event)" />
+<p>{{value}}</p>
+
+<input [(ngModel)]="names" type="text" (keyup)="anotherInputKeyUp()" />
+<p>{{names}}</p>
+
+<p>------------------------------------------------------</p>
+<!-- pipes -->
+<h1>pipes</h1>
+<h2>{{employees.name | uppercase}}</h2>
+<h2>{{employees.hiring | date: 'fullDate'}}</h2>
+<h3>custom pipes</h3>
+<h2>{{title | summary:48}}</h2>
+
+<p>------------------------------------------------------</p>
+<!-- ng-content -->
+<h1>ng-content</h1>
+<div class="card">
+  <div class="card-title">
+    <ng-content select=".title"></ng-content>
+  </div>
+  <div class="card-body">
+    <ng-content select=".body"></ng-content>
+  </div>
+</div>
+
+<p>------------------------------------------------------</p>
+<!-- ng-for -->
+<h1>ng-for</h1>
+<ul *ngFor="let person of persons">
+  <li>{{person | titlecase}}</li>
+</ul>
+<br>
+<ul *ngFor="let country of peopleOfCountries">
+  <li>{{ country.country | titlecase }}</li>
+  <ul>
+    <li *ngFor="let name of country.names">
+      {{ name.name | titlecase }}
+    </li>
+  </ul>
+</ul>
+
+<button (click)="onAdd()">add</button>
+<ul *ngFor="let course of courses">
+  <li> <button (click)="onRemove(course)">remove</button> {{ course }}</li>
+</ul>
+
+<p>------------------------------------------------------</p>
+<!-- ng-if -->
+<h1>ng-if</h1>
+<div *ngIf="courses.length > 0; then coursesList else noCourses"></div>
+<ng-template #coursesList>
+  <ul>
+    <li *ngFor="let course of courses">{{course}}</li>
+  </ul>
+</ng-template>
+<ng-template #noCourses>
+  no courses yet
+</ng-template>
+
+<p>------------------------------------------------------</p>
+<!-- ng-switch -->
+<h1>ng-switch</h1>
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a [class.active] = "defaultView === 'courses'" class="nav-link" (click) = "setView('courses')">courses</a>
+  </li>
+  <li class="nav-item">
+    <a [class.active] = "defaultView === 'certifications'" class="nav-link" (click) = "setView('certifications')">certifications</a>
+  </li>
+</ul>
+<div [ngSwitch]="defaultView">
+  <div *ngSwitchCase="'courses'">list of courses</div>
+  <div *ngSwitchCase="'certifications'">list of certifications</div>
+</div>
+
+<p>------------------------------------------------------</p>
+<!-- custom directive -->
+<h1>custom directive</h1>
+<input type="text" appUpper />
+
+<p>------------------------------------------------------</p>
+<!-- form validation -->
+<h1>form validation</h1>
+<h2>template driven</h2>
+<!-- <form #f="ngForm" (submit)="Submit(f)">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" name="email" ngModel #email="ngModel" required (change)="chObj(email)" class="form-control" id="exampleInputEmail1">
+    <div *ngIf="email.touched && email.invalid" class="alert alert-danger">
+      please enter a valid email
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail2">Email address</label>
+    <input type="email" name="email2" ngModel #email2="ngModel" required (change)="chObj(email2)" class="form-control" id="exampleInputEmail2" email>
+    <div *ngIf="email2.errors?.email" class="alert alert-danger">
+      please enter a valid email
+    </div>
+    <div *ngIf="email2.touched && email2.errors?.required" class="alert alert-danger">
+      please enter an email
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" [disabled]="f.invalid" class="btn btn-primary">Submit</button>
+</form> -->
+<h2>reactive</h2>
+<form [formGroup]="profileForm">
+  <div class="form-group">
+    <label for="exampleInputEmail3">Email address</label>
+    <input type="text" name="firstName" (click) = "getName(firstName)" class="form-control" id="exampleInputEmail3"  formControlName="firstName">
+    <!-- <div *ngIf="forms.controls.email3?.required" class="alert alert-danger">
+      please enter an email
+    </div> -->
+  </div>
+  <!-- <div class="form-group">
+    <label for="exampleInputPassword2">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword2" formControlName="password">
+  </div> -->
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<input type="text" class="form-control" #apititle (keyup.enter) = "createpost(apititle)" />
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let post of posts">
+    <button class="btn btn-success" (click)="updatepost(post, apititle.value)" >update</button>
+    <button class="btn btn-danger" (click)="deletepost(post)">delete</button>
+    {{post.title}}
+  </li>
+</ul>
+<br />
+<fa-icon [icon]="isFav ? faHeart : faHeartbeat" (click)="onClickHeart()"></fa-icon>
+<button [ngClass]="{
+  'blue' : isFav,
+  'red' : !isFav
+}"
+
+[ngStyle] = "{
+  'color' : isFav ? 'red' : 'blue',
+  'fontSize' : isFav ? '18px' : '24px'
+}"
+
+(click)="onClickHeart()">click</button>

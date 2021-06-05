@@ -1,0 +1,13 @@
+.blue {
+  background-color: blue;
+}
+.red {
+  background-color: red;
+}
+
+.form-control.ng-dirty.ng-valid.ng-touched {
+  border-color: green ;
+}
+.form-control.ng-dirty.ng-invalid.ng-touched {
+  border-color: red ;
+}
